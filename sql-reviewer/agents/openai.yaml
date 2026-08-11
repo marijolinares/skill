@@ -1,0 +1,4 @@
+interface:
+  display_name: "SQL Reviewer"
+  short_description: "Revisa SQL por seguridad y rendimiento"
+  default_prompt: "Usa $sql-reviewer para revisar sentencias o scripts SQL por seguridad, rendimiento y convenciones usando reglas explícitas."
