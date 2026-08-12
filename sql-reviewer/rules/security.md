@@ -26,3 +26,24 @@ Tratar estas reglas con prioridad de seguridad. Si una sentencia parece destruct
 - No recomendar ejecutar SQL destructivo.
 - No inferir parametrización solo por puntuación.
 - Si el texto de la consulta está incompleto o usa plantillas, decir qué falta antes de juzgarlo seguro.
+
+## Formalized decisions
+
+Ejemplos de reglas expresadas en formato IF/THEN, para que cada decisión de severidad sea reproducible y no dependa de interpretación libre:
+
+```
+IF statement = DELETE OR UPDATE
+AND WHERE is absent
+THEN severity = CRITICAL
+AND do not recommend executing the statement
+
+IF WHERE contains a tautology (e.g. 1=1, TRUE, LIKE '%', LIKE '%%')
+AND statement = DELETE OR UPDATE
+THEN severity = CRITICAL
+AND flag as "filter does not restrict rows"
+
+IF query has no LIMIT (or equivalent: TOP, FETCH NEXT)
+AND query can return many rows
+THEN severity = MEDIUM or HIGH
+AND recommend adding a row limit
+```
